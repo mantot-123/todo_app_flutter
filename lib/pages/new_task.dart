@@ -41,20 +41,22 @@ class _NewTaskPageState extends State<NewTaskPage> {
             children: [
               TextField(
                 controller: widget.nameController,
-                decoration: InputDecoration(floatingLabelStyle: TextStyle(color: Colors.green[700]),
+                decoration: InputDecoration(floatingLabelStyle: TextStyle(color: Colors.green.shade700),
                   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green.shade900)),
                   border: OutlineInputBorder(borderSide: BorderSide(color: Colors.green.shade900)),
                   label: Text("Task name:")
-                )
+                ),
+                cursorColor: Colors.green.shade900,
               ),
               TextField(
                 controller: widget.descController,
                 decoration: InputDecoration(
-                  floatingLabelStyle: TextStyle(color: Colors.green[700]),
+                  floatingLabelStyle: TextStyle(color: Colors.green.shade700),
                   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green.shade900)),
                   border: OutlineInputBorder(borderSide: BorderSide(color: Colors.green.shade900)),
                   label: Text("Task description:")
-                )
+                ),
+                cursorColor: Colors.green.shade900,
               ),
               Text(errorMsg)
             ]
