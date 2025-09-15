@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "../models/task.dart";
 import "../components/task_tile.dart";
+import "../db.dart";
 import "new_task.dart";
 
 class HomePage extends StatefulWidget {
@@ -14,20 +15,6 @@ class _HomePageState extends State<HomePage> {
   TextEditingController nameInputController = TextEditingController();
   TextEditingController descInputController = TextEditingController();
 
-  List<Task> tasks = [];
-
-  void saveTask(Task task) {
-    setState(() {
-      tasks.add(task);
-    });
-  }
-
-  void deleteTask(int index) {
-    setState(() {
-      tasks.removeAt(index);
-    });
-  }
-
   void openNewTaskPage() async {
     Task? task = await Navigator.push<Task>(context, MaterialPageRoute(builder: (context) => NewTaskPage(
       nameController: nameInputController, 
@@ -35,7 +22,9 @@ class _HomePageState extends State<HomePage> {
     )));
 
     if(task != null) {
-      saveTask(task);
+      setState(() {
+        TasksDBHandler.addTask(task);
+      });
     }
   }
 
@@ -49,13 +38,17 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            tasks.isNotEmpty 
+            TasksDBHandler.tasks.isNotEmpty 
             ? Expanded(
               child: ListView.builder(
-              itemCount: tasks.length, 
+              itemCount: TasksDBHandler.tasks.length, 
               itemBuilder: (context, index) => TaskTile(
-                task: tasks[index], 
-                onDelete: () { deleteTask(index);  }
+                task: TasksDBHandler.tasks[index], 
+                onDelete: () { 
+                  setState(() {
+                    TasksDBHandler.removeTask(index);
+                  });
+                }
               )
               ))
             : Text("There are currently no tasks to display.")

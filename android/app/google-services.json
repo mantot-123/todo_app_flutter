@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671890704911",
+    "project_id": "learning-firebase-2edb1",
+    "storage_bucket": "learning-firebase-2edb1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671890704911:android:c77427100576cbf25fb17a",
+        "android_client_info": {
+          "package_name": "com.example.todo_app_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWqZB5UWueYzcJsrx1LMMUPYYi_6E9X10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
