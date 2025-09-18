@@ -22,9 +22,8 @@ class _HomePageState extends State<HomePage> {
     )));
 
     if(task != null) {
-      setState(() {
-        TasksDBHandler.addTask(task);
-      });
+      await TasksDBHandler.addTask(task);
+      setState(() { });
     }
   }
 
@@ -35,25 +34,37 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: Text("Todo app"), backgroundColor: Colors.green[300],),
       backgroundColor: Colors.green[100],
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TasksDBHandler.tasks.isNotEmpty 
-            ? Expanded(
-              child: ListView.builder(
-              itemCount: TasksDBHandler.tasks.length, 
-              itemBuilder: (context, index) => TaskTile(
-                task: TasksDBHandler.tasks[index], 
-                onDelete: () { 
-                  setState(() {
-                    TasksDBHandler.removeTask(index);
-                  });
-                }
-              )
-              ))
-            : Text("There are currently no tasks to display.")
-          ]
-        ),
+        child: StreamBuilder(
+          stream: TasksDBHandler.getTasksStream(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Text("Loading tasks...")
+              );
+            } 
+            else if(!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Text("There are currently no tasks to display.")
+              );
+            } 
+            else {
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) => TaskTile(
+                  task: Task( // GETTING THE DATA READ FROM THE DOCUMENT
+                    name: snapshot.data!.docs[index]["name"], 
+                    description: snapshot.data!.docs[index]["description"]
+                  ),
+                  onDelete: () { 
+                    setState(() {
+                      TasksDBHandler.removeTask(snapshot.data!.docs[index].id);
+                    });
+                  }
+                )
+              );
+            }
+          }
+        )
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green[300],

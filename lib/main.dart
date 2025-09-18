@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import "pages/home.dart";
 import "pages/new_task.dart";
+import "db.dart";
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: HomePage(),
       ),
